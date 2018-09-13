@@ -77,10 +77,13 @@ h1 {
 
 .deck .card.match {
     cursor: default;
-    background: blanchedalmond;
+    background: silver;
     font-size: 33px;
 }
 
+.spin {
+    transform: rotate(.5turn, 1000);
+}
 /*
  * Styles for the Score Panel
  */

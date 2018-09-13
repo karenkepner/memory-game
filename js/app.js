@@ -1,34 +1,45 @@
 /*
  * Create a list that holds all of your cards
  */
-let cardList = document.querySelectorAll(".card");
-cardList = Array.prototype.slice.call(cardList, 0)
-console.log("Length:" + cardList.length);
-console.log(cardList);
+let cardArray = Array.prototype.slice.call(document.querySelectorAll(".card"));
+console.log(cardArray);
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
-let restart = document.querySelector(".restart");
-restart.addEventListener("click", function(){
-  //clear the newDeck
-  let deck = document.querySelectorAll(".deck");
-  deck.parentNode.removeChild(deck);
-  //let newCardShuffle = shuffle(cardlist);
-  //for (let i = 0; i <= newCardShuffle.length; i++) {
-  //  newDeck.insertAdjacentHTML('afterbegin', newCardShuffle[i].innerHTML)
-})
 
+ let cardClicked = 0;
 
+ function addClickable(e) {
+   cardArray.forEach(function(e){
+     e.addEventListener('click', function(){
+      console.log('you clicked a card.');
+      if (cardClicked === 0){
+        e.className = 'card show';
+        cardClicked++;}
+      else if (cardClicked > 0) {
+        e.className = 'card show spin';
+      }
+     })
+   })
+ }
+
+ //change the class of the card on click here.
+  //     ele.className = "open";//doesn't work.
+
+let array = [];
 
 function displayCards() {
-
+  shuffle(cardArray);
+  addClickable();
+  replaceCards(array);
 }
 // Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(cardList) {
-    var currentIndex = cardList.length, temporaryValue, randomIndex;
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -37,11 +48,18 @@ function shuffle(cardList) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
-    return cardList;
+    return array;
 }
 
+function replaceCards() {
+  //put new array back into the cards container.
+  //erase children of display Cards
+  cardArray = array;
 
+  //put new array of cards into the .cards element.
+}
+
+displayCards();
 /*
  * set up the event listener for a card. If a card is clicked:
 
