@@ -1,9 +1,21 @@
 /*
  * Create a list that holds all of your cards
  */
-let cardArray = Array.prototype.slice.call(document.querySelectorAll(".card"));
-console.log(cardArray);
-
+//let cardArray = Array.prototype.slice.call(document.querySelectorAll(".card"));
+//console.log(cardArray);
+let cardPicture = [ fa-bicycle, fa-bicycle.
+                    fa-hand-peace-o, fa-hand-peace-o,
+                    fa-recycle, fa-recycle,
+                    fa-rocket, fa-rocket,
+                    fa-paw, fa-paw,
+                    fa-soccer-ball-o, fa-soccer-ball-o.
+                    fa-snowflake-o, fa-snowflake-o,
+                    fa-lightbulb-o, fa-lightbulb-o
+                  ];
+//let card = 'cat';
+function generateCards(cardPicture){
+  cardPicture.forEach('<li class="card"><i class="fa ${cardPicture[i]}"></i></li>');
+}
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
