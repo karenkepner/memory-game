@@ -5,10 +5,24 @@ let cardPicture = [ 'fa-bicycle', 'fa-bicycle',
                     'fa-rocket', 'fa-rocket',
                     'fa-paw', 'fa-paw',
                     'fa-soccer-ball-o', 'fa-soccer-ball-o',
-                    'fa-snowflake-o', 'fa-snowflake-o',
+                    'fa-bomb', 'fa-bomb',
                     'fa-lightbulb-o', 'fa-lightbulb-o'
                   ];
+//generate cards.
+//let cards = [];
+//let cardDeckHTML = [];
+let deck = document.querySelector(".deck");
 
+function createCards(card) {
+  return `<li class="card"><i class="fa ${card}"></i></li>`
+}
+
+function startGame() {
+  let cardDeckHTML = shuffle(cardPicture).map(function(cards) {
+    return createCards(cards);
+  });
+  deck.innerHTML = cardDeckHTML.join("");
+ }
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -24,3 +38,6 @@ function shuffle(array) {
     }
     return array;
 }
+
+
+startGame();
