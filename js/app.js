@@ -9,11 +9,12 @@ let cardPicture = [ 'fa-bicycle', 'fa-bicycle',
                     'fa-lightbulb-o', 'fa-lightbulb-o'
                   ];
 //generate cards.
-//let cards = [];
-//let cardDeckHTML = [];
+
 let deck = document.querySelector(".deck");
 let cards = [];
 let clickedCards = [];
+let moves = 0;
+let movesCount = document.querySelector('.moves');
 
 function createCards(card) {
   return `<li class="card" data-card=${card}><i class="fa ${card}"></i></li>`
@@ -27,6 +28,7 @@ function startGame() {
   cards = Array.from(document.querySelectorAll(".card"));
   console.log(cards)
   makeClickable(cards);
+  moves = 0;
  }
 
 function makeClickable(card) {
@@ -37,68 +39,30 @@ function makeClickable(card) {
           if (clickedCards[0].dataset.card === clickedCards[1].dataset.card) {
             clickedCards[0].classList.add('match');
             clickedCards[1].classList.add('match');
-            console.log(card.dataset.card)
+            console.log(card.dataset.card);
             clickedCards = [];
           } else {
+            //setTimeout(function(){
             clickedCards[0].classList.remove('open', 'show');
             clickedCards[1].classList.remove('open', 'show');
+            //}, 1000)
             clickedCards = [];
-          }
+          };
         //show cards
         } else {
-          setTimeout(function(){
           if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
               card.classList.add('open', 'show');
               clickedCards.push(card);
-              console.log('clickedCards length: ' + clickedCards.length + " and "+ clickedCards[0].dataset.card)
+              console.log('clickedCards length: ' + clickedCards.length + " and "+ clickedCards[0].dataset.card);
           }
-        }, 1000)
-      }
-
+      };
+      moves++;
+      movesCount.innerText = moves;
+      console.log(moves);
     })
-
   })
 }
 
-//this is all mixed up.....
-//try this: add event listener to cards.
-//if two cards are selected, compare them
-//   if those two cards are the same, assign match class.
-//   if the two cards are not the same, flip them back to hidden and empty the flipped card array and count the moves
-//if two cards are not selected, allow selection of another card and push that card to the flip array.
-//
-
-// function makeClickable(card) {
-//  cards.forEach(function(card) {
-//     card.addEventListener('click', function() {
-//       if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
-//         card.classList.add('open','show');
-//         console.log('clicked');
-//         clickedCards.push(card);
-//         //console.log('clickedCards Array: ' + clickedCards[0]);
-//       } else {
-//        //do nothing.
-//
-//       if (clickedCards.length == 2) {
-//         //compare cards
-//         if (clickedCards[0] === clickedCards[1]) {
-//           console.log(clickedCards + "It's a match!");
-//           card.classList.remove('open', 'show');
-//           card.classList.add('match');
-//           //clickedCards = [];
-//         }
-//       }
-//
-//      }
-//      clickedCards = [];
-//    })
-//  })
-//
-// }
-//add event listener
-// cards.addEventListener('click', function() {
-// console.log('clicked it.')
-// })
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
