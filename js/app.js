@@ -8,7 +8,6 @@ let cardPicture = [ 'fa-bicycle', 'fa-bicycle',
                     'fa-bomb', 'fa-bomb',
                     'fa-lightbulb-o', 'fa-lightbulb-o'
                   ];
-//generate cards.
 
 let deck = document.querySelector(".deck");
 let cards = [];
@@ -18,7 +17,9 @@ let moves = 0;
 let movesCount = document.querySelector('.moves');
 let matches = 0;
 let gameResetButton = document.querySelector('.restart').addEventListener('click', resetGame);
+let star = 3;
 
+//generate cards.
 function createCards(card) {
   return `<li class="card" data-card=${card}><i class="fa ${card}"></i></li>`
 }
@@ -29,7 +30,7 @@ function startGame() {
   });
   deck.innerHTML = cardDeckHTML.join("");
   cards = Array.from(document.querySelectorAll(".card"));
-  console.log(cards)
+  //console.log(cards)
   makeClickable(cards);
   clicks = 0;
 }
@@ -46,10 +47,9 @@ function makeClickable(card) {
           console.log("moves clicked: " + moves);
       }
       compareCards();
-      movesCount.innerText = moves;
+      updateScorePanel();
+      didPlayerWinYet();
     })
-    //didPlayerWinYet();
-    //displayMoves(clicks);
   })
 }
 
@@ -59,9 +59,6 @@ function compareCards(){
       clickedCards[0].classList.add('match');
       clickedCards[1].classList.add('match');
       matches++;
-      console.log('Matches= ' + matches);
-      console.log('cards compared');
-      didPlayerWinYet();
       clickedCards = [];
     } else {
       setTimeout(function(){
@@ -75,14 +72,21 @@ function compareCards(){
 
 function didPlayerWinYet(){
   if (matches === 8) {
-    //alert("You Win!" + "Moves = " + moves + " Stars = " +);
-    alert(`You win! Moves Taken: ${moves} Star Rating: unknown`)
-    //startGame();
+    alert(`You win! Moves Taken: ${moves} Star Rating: ${star}`)
   }
 }
 
-function displayMoves(click) {
- moves = click/2;
+function updateScorePanel() {
+  movesCount.innerText = moves;
+  if (moves > 16 && moves < 26) {
+    //remove one star
+    document.querySelector('.stars li:first-child').style.display = 'none';
+    star = 2;
+  } else if (moves > 40) {
+    //remove another star
+    document.querySelector('.stars li:nth-child(2)').style.display = 'none';
+    star = 1;
+  }
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
