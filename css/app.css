@@ -79,7 +79,7 @@ h1 {
 
 .deck .card.match {
     cursor: default;
-    background: silver;
+    background: rgba(172, 146, 183, 80);
     font-size: 33px;
 }
 

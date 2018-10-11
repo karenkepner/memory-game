@@ -18,6 +18,7 @@ let movesCount = document.querySelector('.moves');
 let matches = 0;
 let gameResetButton = document.querySelector('.restart').addEventListener('click', resetGame);
 let star = 3;
+let timeKeeper = document.querySelector('.timer');
 
 //generate cards.
 function createCards(card) {
@@ -25,12 +26,12 @@ function createCards(card) {
 }
 
 function startGame() {
+  startTimer();
   let cardDeckHTML = shuffle(cardPicture).map(function(cards) {
     return createCards(cards);
   });
   deck.innerHTML = cardDeckHTML.join("");
   cards = Array.from(document.querySelectorAll(".card"));
-  //console.log(cards)
   makeClickable(cards);
   clicks = 0;
 }
@@ -88,6 +89,26 @@ function updateScorePanel() {
     star = 1;
   }
 }
+//make the timer
+//based on Daniel Hug's (https://jsfiddle.net/Daniel_Hug/pvk6p/) Thanks!
+let sec = 0;
+let min = 0;
+let hour = 0;
+
+function startTimer(){
+  setInterval(function(){
+    sec++;
+    if (sec > 60) {
+      sec = 0;
+      min++;
+    } else if (min > 60) {
+      min = 0;
+      hour++;
+    }
+    timeKeeper.textContent = (hour ? (hour >9 ? hour : "0" + hour) : "00") + ":" + (min ? (min > 9 ? min : "0" + min) : "00") + ':' + (sec > 9 ? sec : "0" + sec);
+  },1000);
+}
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
