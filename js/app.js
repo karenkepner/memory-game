@@ -19,14 +19,16 @@ let matches = 0;
 let gameResetButton = document.querySelector('.restart').addEventListener('click', resetGame);
 let star = 3;
 let timeKeeper = document.querySelector('.timer');
+let gameRunning = false;
 
 //generate cards.
 function createCards(card) {
   return `<li class="card" data-card=${card}><i class="fa ${card}"></i></li>`
 }
 
+//start the game on pageload.
 function startGame() {
-  startTimer();
+  gameRunning = true;
   let cardDeckHTML = shuffle(cardPicture).map(function(cards) {
     return createCards(cards);
   });
@@ -39,6 +41,11 @@ function startGame() {
 function makeClickable(card) {
   cards.forEach(function(card){
     card.addEventListener('click', function(){
+      //start the timer on first click.
+      if (moves < 1){
+        startTimer();
+      };
+      console.log(timeKeeper.innerText);
       if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match') && clickedCards.length<2) {
           card.classList.add('open', 'show');
           clickedCards.push(card);
@@ -73,7 +80,10 @@ function compareCards(){
 
 function didPlayerWinYet(){
   if (matches === 8) {
-    alert(`You win! Moves Taken: ${moves} Star Rating: ${star}`)
+    let gameDuration = timeKeeper.innerText;
+    //stop/reset timer here.
+    gameRunning = false;
+    alert(`You win! Moves Taken: ${moves} Star Rating: ${star} Game Duration: ${gameDuration}`)
   }
 }
 
@@ -83,7 +93,7 @@ function updateScorePanel() {
     //remove one star
     document.querySelector('.stars li:first-child').style.display = 'none';
     star = 2;
-  } else if (moves > 40) {
+  } else if (moves > 30) {
     //remove another star
     document.querySelector('.stars li:nth-child(2)').style.display = 'none';
     star = 1;
@@ -94,9 +104,10 @@ function updateScorePanel() {
 let sec = 0;
 let min = 0;
 let hour = 0;
+let intervalID = window.setInterval(startTimer, 1000);
 
-function startTimer(){
-  setInterval(function(){
+function startTimer() {
+  if (gameRunning === true) {
     sec++;
     if (sec > 60) {
       sec = 0;
@@ -106,8 +117,34 @@ function startTimer(){
       hour++;
     }
     timeKeeper.textContent = (hour ? (hour >9 ? hour : "0" + hour) : "00") + ":" + (min ? (min > 9 ? min : "0" + min) : "00") + ':' + (sec > 9 ? sec : "0" + sec);
-  },1000);
-}
+  } else if (gameRunning === false) {
+    clearInterval(intervalID);
+    timeKeeper.textContent = "00:00:00";
+    matches = 0;
+    moves = 0;
+  }
+};
+
+
+
+
+// function startTimer(){
+//   if (gameRunning === true) {
+//     setInterval(function(){
+//       sec++;
+//       if (sec > 60) {
+//         sec = 0;
+//         min++;
+//       } else if (min > 60) {
+//         min = 0;
+//         hour++;
+//       }
+//       timeKeeper.textContent = (hour ? (hour >9 ? hour : "0" + hour) : "00") + ":" + (min ? (min > 9 ? min : "0" + min) : "00") + ':' + (sec > 9 ? sec : "0" + sec);
+//     },1000);
+//   } else if (gameRunning === false ) {
+//     //clearInterval();
+//   }
+// }
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -125,6 +162,7 @@ function shuffle(array) {
 }
 
 function resetGame(){
+  clearInterval(intervalID);
   startGame();
  }
 
