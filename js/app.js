@@ -42,7 +42,7 @@ function makeClickable(card) {
   cards.forEach(function(card){
     card.addEventListener('click', function(){
       //start the timer on first click.
-      if (moves < 1){
+      if (moves < 1 && gameRunning === true){
         startTimer();
       };
       console.log(timeKeeper.innerText);
@@ -118,7 +118,7 @@ function startTimer() {
     }
     timeKeeper.textContent = (hour ? (hour >9 ? hour : "0" + hour) : "00") + ":" + (min ? (min > 9 ? min : "0" + min) : "00") + ':' + (sec > 9 ? sec : "0" + sec);
   } else if (gameRunning === false) {
-    clearInterval(intervalID);
+    window.clearInterval(intervalID);
     timeKeeper.textContent = "00:00:00";
     matches = 0;
     moves = 0;
@@ -163,6 +163,7 @@ function shuffle(array) {
 
 function resetGame(){
   clearInterval(intervalID);
+  timeKeeper.textContent = "00:00:00";
   startGame();
  }
 
