@@ -1,9 +1,12 @@
 # Memory Game Project
 
+![Memory Game](img/MemoryGameScreenShot.png)
+
 ## Table of Contents
 
 * [Instructions](#instructions)
 * [Contributing](#contributing)
+
 
 ## Instructions
 

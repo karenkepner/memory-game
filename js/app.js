@@ -20,13 +20,21 @@ let gameResetButton = document.querySelector('.restart').addEventListener('click
 let star = 3;
 let timeKeeper = document.querySelector('.timer');
 let gameRunning = false;
+let sec = 0;
+let min = 0;
+let hour = 0;
+let intervalID = window.setInterval(startTimer, 1000);
 
 //generate cards.
 function createCards(card) {
   return `<li class="card" data-card=${card}><i class="fa ${card}"></i></li>`
 }
-
 //start the game on pageload.
+
+(function(){
+  startGame();
+})();
+
 function startGame() {
   gameRunning = true;
   let cardDeckHTML = shuffle(cardPicture).map(function(cards) {
@@ -36,13 +44,14 @@ function startGame() {
   cards = Array.from(document.querySelectorAll(".card"));
   makeClickable(cards);
   clicks = 0;
+  resetCounters();
 }
 
 function makeClickable(card) {
   cards.forEach(function(card){
     card.addEventListener('click', function(){
       //start the timer on first click.
-      if (moves < 1 && gameRunning === true){
+      if (moves <= 1 && gameRunning === true){
         startTimer();
       };
       console.log(timeKeeper.innerText);
@@ -81,9 +90,14 @@ function compareCards(){
 function didPlayerWinYet(){
   if (matches === 8) {
     let gameDuration = timeKeeper.innerText;
-    //stop/reset timer here.
     gameRunning = false;
+    hours = 0;
+    min = 0;
+    sec = 0;
     alert(`You win! Moves Taken: ${moves} Star Rating: ${star} Game Duration: ${gameDuration}`)
+    matches = 0;
+    moves = 0;
+    startGame();
   }
 }
 
@@ -97,14 +111,11 @@ function updateScorePanel() {
     //remove another star
     document.querySelector('.stars li:nth-child(2)').style.display = 'none';
     star = 1;
-  }
-}
+  };
+};
+
 //make the timer
 //based on Daniel Hug's (https://jsfiddle.net/Daniel_Hug/pvk6p/) Thanks!
-let sec = 0;
-let min = 0;
-let hour = 0;
-let intervalID = window.setInterval(startTimer, 1000);
 
 function startTimer() {
   if (gameRunning === true) {
@@ -117,35 +128,32 @@ function startTimer() {
       hour++;
     }
     timeKeeper.textContent = (hour ? (hour >9 ? hour : "0" + hour) : "00") + ":" + (min ? (min > 9 ? min : "0" + min) : "00") + ':' + (sec > 9 ? sec : "0" + sec);
-  } else if (gameRunning === false) {
-    window.clearInterval(intervalID);
-    timeKeeper.textContent = "00:00:00";
-    matches = 0;
-    moves = 0;
-  }
+    }
+  };
+
+function resetTimer() {
+  //if (gameRunning === false) {
+    clearInterval(intervalID);
+    resetCounters();
+  //}
 };
 
+function resetGame(){
+  //resetCounters();
+  //gameRunning = false;
+  resetTimer();
+  startGame();
+};
 
-
-
-// function startTimer(){
-//   if (gameRunning === true) {
-//     setInterval(function(){
-//       sec++;
-//       if (sec > 60) {
-//         sec = 0;
-//         min++;
-//       } else if (min > 60) {
-//         min = 0;
-//         hour++;
-//       }
-//       timeKeeper.textContent = (hour ? (hour >9 ? hour : "0" + hour) : "00") + ":" + (min ? (min > 9 ? min : "0" + min) : "00") + ':' + (sec > 9 ? sec : "0" + sec);
-//     },1000);
-//   } else if (gameRunning === false ) {
-//     //clearInterval();
-//   }
-// }
-
+//sets timer and counters back to zero for new game.
+function resetCounters() {
+  sec = 0;
+  min = 0;
+  hour = 0;
+  timeKeeper.textContent = "00:00:00";
+  matches = 0;
+  moves = 0;
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -160,11 +168,3 @@ function shuffle(array) {
     }
     return array;
 }
-
-function resetGame(){
-  clearInterval(intervalID);
-  timeKeeper.textContent = "00:00:00";
-  startGame();
- }
-
-startGame();
