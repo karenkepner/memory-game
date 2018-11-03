@@ -139,10 +139,7 @@ function resetTimer() {
 };
 
 function resetGame(){
-  //resetCounters();
-  //gameRunning = false;
-  resetTimer();
-  startGame();
+  location.reload();
 };
 
 //sets timer and counters back to zero for new game.
