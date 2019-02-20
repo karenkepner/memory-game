@@ -58,10 +58,7 @@ function makeClickable(card) {
       if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match') && clickedCards.length<2) {
           card.classList.add('open', 'show');
           clickedCards.push(card);
-          console.log("card pushed to clickedCards");
-          console.log("array length: " + clickedCards.length);
           moves++;
-          console.log("moves clicked: " + moves);
       }
       compareCards();
       updateScorePanel();
